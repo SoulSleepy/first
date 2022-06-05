@@ -1,0 +1,34 @@
+.header {
+    grid-area: h;
+    background-color: #33363c;
+    border-radius: 0 0 15px 15px;
+    color: white;
+}
+
+.header img {
+    width: 40px;
+    padding-right: 10px;
+}
+
+.header p {
+    position: relative;
+    left: 15px;
+    top: -5px;
+}
+
+.loginBlock {
+    position: relative;
+    left: 1100px;
+    top: -60px;
+    width: 100px;
+}
+
+.item {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+.active {
+    text-decoration: none;
+    color: rgb(230, 200, 131);
+}

@@ -1,0 +1,31 @@
+.messenger {
+    display: grid;
+    grid-template-columns: 3fr 7fr;
+}
+
+.dialogsItems {
+    padding: 10px;
+}
+
+.dialog {
+    
+}
+
+.messages {
+    padding: 10px;
+}
+
+.message {
+}
+
+.item {
+    color: black;
+    text-decoration: none;
+    padding-left: 10px;
+}
+
+.active {
+    color: rgb(230, 200, 131);
+    text-decoration: none;
+    padding-left: 10px;
+}

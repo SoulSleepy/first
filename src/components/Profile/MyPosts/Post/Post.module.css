@@ -1,0 +1,15 @@
+.item {
+    color: blueviolet;
+}
+
+.item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+.item span img {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+}

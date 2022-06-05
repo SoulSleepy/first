@@ -1,0 +1,42 @@
+
+.formControl.error input,
+.formControl.error textarea {
+    border: 2px solid rgb(186, 109, 109);
+}
+
+.formControl.error span {
+    color: rgb(186, 109, 109);
+}
+
+.formSummaryError {
+    border: 2px solid rgb(186, 109, 109);
+    padding: 5px;
+    width: 220px;
+    color: rgb(186, 109, 109);
+}
+
+.formLoginBlock {
+    background-color: rgb(229, 229, 229);
+    padding: 5px;
+    width: 240px;
+    border: 0.3px solid rgb(128, 128, 128);
+    border-radius: 10px;
+}
+
+.formLoginBlock p {
+    display: inline;
+}
+
+.formField {
+    padding: 3px;
+}
+
+.formCheck {
+    float: left;
+    width: 20px;
+}
+
+.loginBtn {
+    padding: 3px;
+}
+
