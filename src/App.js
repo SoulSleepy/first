@@ -17,7 +17,7 @@ import { useEffect } from 'react';
 function App(props) {
     useEffect(() => {
         props.initializeApp();
-    });
+    }, []);
 
     if (!props.initializeApp) {
         return <Preloader />
