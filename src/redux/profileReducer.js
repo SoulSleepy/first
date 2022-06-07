@@ -3,6 +3,7 @@ import{ profileAPI } from '../api/api';
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_USER_STATUS = 'SET-USER-STATUS';
+const DELETE_POST = 'DELETE-POST'; // для теста tdd функционал не реализован в ui
 
 let initialState = {
     posts: [
@@ -34,6 +35,12 @@ function profileReducer(state = initialState, action) {
                 status: action.status
             };
         };
+        case DELETE_POST: {
+            return {
+                ...state,
+                posts: state.posts.filter(post => post.id != action.postId)
+            }
+        } // для теста tdd функционал не реализован в ui
         default:
             return state;
     }
@@ -42,6 +49,7 @@ function profileReducer(state = initialState, action) {
 export const addPost = (newPostText) => ({type: ADD_POST, newPostText});
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile});
 export const setUserStatus = (status) => ({type: SET_USER_STATUS, status});
+export const deletePost = (postId) => ({type: DELETE_POST, postId}); // для теста tdd функционал не реализован в ui
 
 export const getUserProfile = (userId) => {
     return (dispatch) => {
