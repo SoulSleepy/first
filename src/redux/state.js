@@ -2,6 +2,8 @@ import messengerReducer from "./messengerReducer";
 import profileReducer from "./profileReducer";
 import sidebarReducer from "./sidebarReducer";
 
+//первый Store написанный вручную для понимания логики работы Store
+
 let store = {
     _state: {
         profilePage: {

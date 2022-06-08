@@ -1,6 +1,6 @@
 import { getAuthUserData } from "./authReducer";
 
-const INITIALIZED_SUCCESS = 'INITIALIZED-SUCCES';
+const INITIALIZED_SUCCESS = 'app/INITIALIZED-SUCCES';
 
 let initialState = {
     initialized: false
@@ -29,11 +29,5 @@ export const initializeApp = () => {
         });
     };
 }
-//24.09 80 видос 
-// Кто не хочет переписывать App.js в класс используйте хук useEffect.
-//   useEffect(( ) => {
-//     props.initializeApp();
-//   }, [ ] )
-// убрать из хедера гетюзер дата добавить в апп юз эффект или сделать класс?
 
 export default appReducer;
