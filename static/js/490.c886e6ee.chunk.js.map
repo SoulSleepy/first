@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/490.c886e6ee.chunk.js","mappings":"6JAUA,MARA,SAAcA,GACV,OACI","sources":["components/News/News.jsx"],"sourcesContent":["import style from './News.module.css';\r\n\r\nfunction News(props) {\r\n    return (\r\n        <div>\r\n            News\r\n        </div>\r\n    );\r\n}\r\n\r\nexport default News;"],"names":["props"],"sourceRoot":""}
