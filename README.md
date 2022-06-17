@@ -1,4 +1,8 @@
-# you can view the project at: https://soulsleepy.github.io/first/
+# You can view the project at: 
+https://soulsleepy.github.io/first/
+Use test login:
+Email: free@samuraijs.com
+Password: free
 
 # Getting Started with Create React App
 
