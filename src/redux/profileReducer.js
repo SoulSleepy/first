@@ -4,6 +4,7 @@ const ADD_POST = 'profile/ADD-POST';
 const SET_USER_PROFILE = 'profile/SET-USER-PROFILE';
 const SET_USER_STATUS = 'profile/SET-USER-STATUS';
 const DELETE_POST = 'profile/DELETE-POST'; // для теста tdd функционал не реализован в ui
+const SAVE_PHOTO_SUCCESS = 'profile/SAVE-PHOTO-SUCCESS';
 
 let initialState = {
     posts: [
@@ -41,6 +42,12 @@ function profileReducer(state = initialState, action) {
                 posts: state.posts.filter(post => post.id != action.postId)
             }
         } // для теста tdd функционал не реализован в ui
+        case SAVE_PHOTO_SUCCESS: {
+            return {
+                ...state,
+                profile: {...state.profile, photos: action.photos}
+            }
+        }
         default:
             return state;
     }
@@ -50,6 +57,7 @@ export const addPost = (newPostText) => ({type: ADD_POST, newPostText});
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile});
 export const setUserStatus = (status) => ({type: SET_USER_STATUS, status});
 export const deletePost = (postId) => ({type: DELETE_POST, postId}); // для теста tdd функционал не реализован в ui
+export const savePhotoSuccess = (photos) => ({type: SAVE_PHOTO_SUCCESS, photos});
 
 export const getUserProfile = (userId) => {
     return async (dispatch) => {
@@ -68,6 +76,14 @@ export const updateUserStatus = (status) => {
         let data = await profileAPI.putStatus(status);
         if(data.resultCode == 0) {
             dispatch(setUserStatus(status));
+        }
+    };
+}
+export const savePhoto = (file) => {
+    return async (dispatch) => {
+        let data = await profileAPI.savePhoto(file);
+        if(data.resultCode == 0) {
+            dispatch(savePhotoSuccess(data.data.photos));
         }
     };
 }

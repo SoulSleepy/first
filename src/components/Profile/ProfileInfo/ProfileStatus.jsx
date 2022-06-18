@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import style from'./ProfileInfo.module.css';
+import style from'./ProfileStatus.module.css';
 
 
 function ProfileStatus(props) {
@@ -34,6 +34,7 @@ function ProfileStatus(props) {
                     <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}  value={status}/>
                 </div>
             }
+            <hr className={style.hrProfile} />
         </div>
     );
 }

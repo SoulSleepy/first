@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { getUserProfile, requestUserstatus, updateUserStatus } from '../../redux/profileReducer';
-import { Navigate, useParams } from 'react-router-dom';
+import { getUserProfile, requestUserstatus, updateUserStatus, savePhoto } from '../../redux/profileReducer';
+import { useParams } from 'react-router-dom';
 import React from 'react';
 import Profile from './Profile';
 import { withAuthNavigate } from '../../hoc/withAuthNavigate';
@@ -9,7 +9,7 @@ import { compose } from 'redux';
 
 class ProfileContainer extends React.Component {
 
-    componentDidMount() {
+    refreshProfile() {
         let userId = this.props.params.userId;
         if (!userId) {
             userId = this.props.authUserId;
@@ -18,9 +18,19 @@ class ProfileContainer extends React.Component {
         this.props.requestUserstatus(userId);
     }
 
+    componentDidMount() {
+        this.refreshProfile();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.params.userId != prevProps.params.userId) {
+            this.refreshProfile();
+        }
+    }
+
     render() {
         return (
-            <Profile {...this.props} />
+            <Profile {...this.props} isOwner={!this.props.params.userId} />
         );
     }
 }
@@ -39,6 +49,6 @@ function TakeParams(props) {
 }
 
 export default compose(
-    connect(mapStateToProps, {getUserProfile, requestUserstatus, updateUserStatus, withAuthNavigate}),
+    connect(mapStateToProps, {getUserProfile, requestUserstatus, updateUserStatus, withAuthNavigate, savePhoto}),
     withAuthNavigate  // login  светится из за нее
 ) (TakeParams);
