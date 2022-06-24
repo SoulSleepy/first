@@ -1,3 +1,4 @@
+import { stopSubmit } from 'redux-form';
 import{ profileAPI } from '../api/api';
 
 const ADD_POST = 'profile/ADD-POST';
@@ -87,5 +88,19 @@ export const savePhoto = (file) => {
         }
     };
 }
+export const saveProfile = (profile) => {
+    return async (dispatch, getState) => {
+        let userId = getState().auth.userId
+        let data = await profileAPI.saveProfile(profile);
+        if(data.resultCode == 0) {
+            dispatch(getUserProfile(userId));
+        } else {
+            dispatch(stopSubmit('edit-profile', {_error: data.messages[0]}));
+            return Promise.reject(data.messages[0]);
+        }
+    };
+}
 
 export default profileReducer;
+
+//41.30 видео

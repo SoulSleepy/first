@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import { getUserProfile, requestUserstatus, updateUserStatus, savePhoto } from '../../redux/profileReducer';
+import { getUserProfile, requestUserstatus, updateUserStatus, 
+    savePhoto, saveProfile } from '../../redux/profileReducer';
 import { useParams } from 'react-router-dom';
 import React from 'react';
 import Profile from './Profile';
@@ -49,6 +50,7 @@ function TakeParams(props) {
 }
 
 export default compose(
-    connect(mapStateToProps, {getUserProfile, requestUserstatus, updateUserStatus, withAuthNavigate, savePhoto}),
+    connect(mapStateToProps, {getUserProfile, requestUserstatus, updateUserStatus, 
+        withAuthNavigate, savePhoto, saveProfile}),
     withAuthNavigate  // login  светится из за нее
 ) (TakeParams);
