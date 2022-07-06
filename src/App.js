@@ -1,6 +1,6 @@
 import './App.css';
 import React, { Suspense, useEffect} from 'react';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { initializeApp } from './redux/appReducer';
 import Preloader from './common/preloader/Preloader';
@@ -36,6 +36,7 @@ function App(props) {
                     <div className='app-wrapper-content'>
                         <Suspense fallback={<Preloader />}>
                             <Routes>
+                                <Route exact path="/first" element={<Navigate to={'/profile'} /> } />
                                 <Route path='/login' element={<Login />} />
                                 <Route path='/messenger/*' element={<MessengerContainer />} />
                                 <Route path='/profile/:userId' element={<ProfileContainer />} />
