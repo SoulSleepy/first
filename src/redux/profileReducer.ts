@@ -1,5 +1,7 @@
+import { SourceMap } from 'module';
 import { stopSubmit } from 'redux-form';
 import{ profileAPI } from '../api/api';
+import { PhotosType, PostType, ProfileType } from '../types/types';
 
 const ADD_POST = 'profile/ADD-POST';
 const SET_USER_PROFILE = 'profile/SET-USER-PROFILE';
@@ -11,18 +13,21 @@ let initialState = {
     posts: [
         {id: 1, message: 'Hi, how are you?', likesCount: 1},
         {id: 2, message: 'It is my first post', likesCount: 2}
-    ],
-    profile: null,
-    status: ''
+    ] as Array<PostType>,
+    profile: null as ProfileType | null,
+    status: '',
+    newPostText: ''
 }
 
-function profileReducer(state = initialState, action) {
+export type InitialStateType = typeof initialState;
+
+
+function profileReducer(state = initialState, action: any): InitialStateType {
     switch (action.type) {
         case ADD_POST: {
-            let text = action.newPostText;
             return {
                 ...state,
-                posts: [...state.posts, {id:3, message: text, likesCount: 0}]
+                posts: [...state.posts, {id:3, message: action.newPostText, likesCount: 0}]
             };
         };
         case SET_USER_PROFILE: {
@@ -46,7 +51,7 @@ function profileReducer(state = initialState, action) {
         case SAVE_PHOTO_SUCCESS: {
             return {
                 ...state,
-                profile: {...state.profile, photos: action.photos}
+                profile: {...state.profile, photos: action.photos} as ProfileType
             }
         }
         default:
@@ -54,42 +59,62 @@ function profileReducer(state = initialState, action) {
     }
 }
 
-export const addPost = (newPostText) => ({type: ADD_POST, newPostText});
-export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile});
-export const setUserStatus = (status) => ({type: SET_USER_STATUS, status});
-export const deletePost = (postId) => ({type: DELETE_POST, postId}); // для теста tdd функционал не реализован в ui
-export const savePhotoSuccess = (photos) => ({type: SAVE_PHOTO_SUCCESS, photos});
+type AddPostActionType = {
+    type: typeof ADD_POST,
+    newPostText: string
+}
+type SetUserProfileActionType = {
+    type: typeof SET_USER_PROFILE,
+    profile: ProfileType
+}
+type SetUserStatusActionType = {
+    type: typeof SET_USER_STATUS,
+    status: string
+}
+type DeletePostActionType = {
+    type: typeof DELETE_POST,
+    postId: number
+}
+type SavePhotoSuccessActionType = {
+    type: typeof SAVE_PHOTO_SUCCESS,
+    photos: PhotosType
+}
+export const addPost = (newPostText: string): AddPostActionType => ({type: ADD_POST, newPostText});
+export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({type: SET_USER_PROFILE, profile});
+export const setUserStatus = (status: string): SetUserStatusActionType => ({type: SET_USER_STATUS, status});
+export const deletePost = (postId: number): DeletePostActionType => ({type: DELETE_POST, postId}); // для теста tdd функционал не реализован в ui
+export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType => ({type: SAVE_PHOTO_SUCCESS, photos});
 
-export const getUserProfile = (userId) => {
-    return async (dispatch) => {
+export const getUserProfile = (userId: number) => {
+    return async (dispatch: any) => {
         let data = await profileAPI.getProfile(userId);
         dispatch(setUserProfile(data));
     };
 }
-export const requestUserstatus = (userId) => {
-    return async (dispatch) => {
+export const requestUserstatus = (userId: number) => {
+    return async (dispatch: any) => {
         let data = await profileAPI.getStatus(userId);
         dispatch(setUserStatus(data));
     };
 }
-export const updateUserStatus = (status) => {
-    return async (dispatch) => {
+export const updateUserStatus = (status: string) => {
+    return async (dispatch: any) => {
         let data = await profileAPI.putStatus(status);
         if(data.resultCode == 0) {
             dispatch(setUserStatus(status));
         }
     };
 }
-export const savePhoto = (file) => {
-    return async (dispatch) => {
+export const savePhoto = (file: any) => {
+    return async (dispatch: any) => {
         let data = await profileAPI.savePhoto(file);
         if(data.resultCode == 0) {
             dispatch(savePhotoSuccess(data.data.photos));
         }
     };
 }
-export const saveProfile = (profile) => {
-    return async (dispatch, getState) => {
+export const saveProfile = (profile: ProfileType) => {
+    return async (dispatch: any, getState: any) => {
         let userId = getState().auth.userId
         let data = await profileAPI.saveProfile(profile);
         if(data.resultCode == 0) {
@@ -102,5 +127,3 @@ export const saveProfile = (profile) => {
 }
 
 export default profileReducer;
-
-//41.30 видео
