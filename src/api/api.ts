@@ -1,5 +1,11 @@
-import * as axios from 'axios';
+import axios from 'axios';
+import { ProfileType } from '../types/types';
 
+export enum ResultCodesEnum {
+    Success = 0,
+    Error = 1,
+    CaptchaIsRequired = 10
+}
 
 let instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -10,7 +16,7 @@ let instance = axios.create({
 })
 
 export let usersAPI = {
-    requestUsers(currentPage, pageSize) {
+    requestUsers(currentPage: number, pageSize: number) {
         return (
             instance.get(`users?page=${currentPage}&count=${pageSize}`)
             .then(response => {
@@ -21,7 +27,7 @@ export let usersAPI = {
 }
 
 export let followAPI = {
-    postFollow(userId) {
+    postFollow(userId: number) {
         return (
             instance.post(`follow/${userId}`)
             .then(response => {
@@ -29,7 +35,7 @@ export let followAPI = {
             })
         );
     },
-    deleteUnfollow(userId) {
+    deleteUnfollow(userId: number) {
         return (
             instance.delete(`follow/${userId}`)
             .then(response => {
@@ -40,7 +46,7 @@ export let followAPI = {
 }
 
 export let profileAPI = {
-    getProfile(userId) {
+    getProfile(userId: number) {
         return (
             instance.get(`profile/`+ userId)
             .then(response => {
@@ -48,7 +54,7 @@ export let profileAPI = {
             })
         );
     },
-    getStatus(userId) {
+    getStatus(userId: number) {
         return (
             instance.get(`profile/status/${userId}`)
             .then(response => {
@@ -56,7 +62,7 @@ export let profileAPI = {
             })
         );
     },
-    putStatus(status) {
+    putStatus(status: string) {
         return (
             instance.put(`profile/status/`, {status})
             .then(response => {
@@ -64,7 +70,7 @@ export let profileAPI = {
             })
         );
     },
-    savePhoto(photoFile) {
+    savePhoto(photoFile: any) {
         const formData = new FormData();
         formData.append('image', photoFile);
         return (
@@ -78,7 +84,7 @@ export let profileAPI = {
             })
         );
     },
-    saveProfile(profile) {
+    saveProfile(profile: ProfileType) {
         return (
             instance.put(`profile`, profile)
             .then(response => {
@@ -88,18 +94,36 @@ export let profileAPI = {
     }
 }
 
+type AuthAPIMeType = {
+    data: {
+        id: number,
+        email: string,
+        login: string
+    }
+    resultCode: ResultCodesEnum,
+    messages: Array<string>
+}
+
+type AuthAPILoginType = {
+    resultCode: ResultCodesEnum,
+    messages: Array<string>,
+    data: {
+        userId: number
+    }
+}
+
 export let authAPI = {
     getAuthMe() {
         return (
-            instance.get(`auth/me`)
+            instance.get<AuthAPIMeType>(`auth/me`)
             .then(response => {
                 return response.data;
             })
         );
     },
-    postAuthLogin(email, password, rememberMe = false, captcha) {
+    postAuthLogin(email: string, password: number, rememberMe = false, captcha: null | string = null) {
         return (
-            instance.post(`auth/login`, {email, password, rememberMe, captcha})
+            instance.post<AuthAPILoginType>(`auth/login`, {email, password, rememberMe, captcha})
             .then(response => {
                 return response.data;
             })

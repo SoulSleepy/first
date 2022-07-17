@@ -1,6 +1,6 @@
 import { stopSubmit } from 'redux-form';
 import { ThunkAction } from 'redux-thunk';
-import { authAPI, securityAPI } from '../api/api';
+import { authAPI, ResultCodesEnum, securityAPI } from '../api/api';
 import { AppStateType } from './reduxStore';
 
 const SET_AUTH_USER_DATA = 'auth/SET-AUTH-USER-DATA';
@@ -65,19 +65,19 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>;
 export const getAuthUserData = (): ThunkType => {
     return async (dispatch) => {
         let data = await authAPI.getAuthMe();
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodesEnum.Success) {
             let {id, email, login} = data.data;
             dispatch(setAuthUserData(id, email, login, true));
         }
     };
 }
-export const login = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkType => {
+export const login = (email: string, password: number, rememberMe: boolean, captcha: string): ThunkType => {
     return async (dispatch: any) => { //недотипизировано тк Ошибка stopsubmit как и в профайле
         let data = await authAPI.postAuthLogin(email, password, rememberMe, captcha);
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodesEnum.Success) {
             dispatch(getAuthUserData());
         } else {
-            if (data.resultCode === 10) {
+            if (data.resultCode === ResultCodesEnum.CaptchaIsRequired) {
                 dispatch(getCaptchaUrl());
             }
             let messageError = data.messages.length > 0 ? data.messages[0] : 'Some error';
@@ -88,7 +88,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
 export const logout = (): ThunkType => {
     return async (dispatch) => {
         let data = await authAPI.deleteAuthLogout();
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodesEnum.Success) {
             dispatch(setAuthUserData(null, null, null, false));
         }
     };
