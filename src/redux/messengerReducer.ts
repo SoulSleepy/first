@@ -28,7 +28,7 @@ let initialState = {
 
 export type InitialStateType = typeof initialState;
 
-function messengerReducer(state = initialState, action: any): InitialStateType {
+function messengerReducer(state = initialState, action: ActionTypes): InitialStateType {
     switch (action.type) {
         case SEND_MESSAGE:
             let body = action.newMessageBody;
@@ -40,6 +40,8 @@ function messengerReducer(state = initialState, action: any): InitialStateType {
             return state;
     }
 }
+
+type ActionTypes = SendMessageActionType;
 
 type SendMessageActionType = {
     type: typeof SEND_MESSAGE,

@@ -2,7 +2,9 @@ let initialState = {};
 
 export type InitialStateType = typeof initialState;
 
-function sidebarReducer(state = initialState, action: any): InitialStateType {
+type ActionTypes = "ActionType | ActionType | ActionType"
+
+function sidebarReducer(state = initialState, action: ActionTypes): InitialStateType {
     return state;
 }
 

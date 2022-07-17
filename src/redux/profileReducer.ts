@@ -1,7 +1,9 @@
-import { SourceMap } from 'module';
-import { stopSubmit } from 'redux-form';
+import { Dispatch } from 'redux';
+import { FormErrors, stopSubmit } from 'redux-form';
+import { ThunkAction } from 'redux-thunk';
 import{ profileAPI } from '../api/api';
 import { PhotosType, PostType, ProfileType } from '../types/types';
+import { AppStateType } from './reduxStore';
 
 const ADD_POST = 'profile/ADD-POST';
 const SET_USER_PROFILE = 'profile/SET-USER-PROFILE';
@@ -21,8 +23,7 @@ let initialState = {
 
 export type InitialStateType = typeof initialState;
 
-
-function profileReducer(state = initialState, action: any): InitialStateType {
+function profileReducer(state = initialState, action: ActionTypes): InitialStateType {
     switch (action.type) {
         case ADD_POST: {
             return {
@@ -59,6 +60,9 @@ function profileReducer(state = initialState, action: any): InitialStateType {
     }
 }
 
+type ActionTypes = AddPostActionType | SetUserProfileActionType
+    | SetUserStatusActionType | DeletePostActionType | SavePhotoSuccessActionType;
+
 type AddPostActionType = {
     type: typeof ADD_POST,
     newPostText: string
@@ -79,34 +83,37 @@ type SavePhotoSuccessActionType = {
     type: typeof SAVE_PHOTO_SUCCESS,
     photos: PhotosType
 }
+
 export const addPost = (newPostText: string): AddPostActionType => ({type: ADD_POST, newPostText});
 export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({type: SET_USER_PROFILE, profile});
 export const setUserStatus = (status: string): SetUserStatusActionType => ({type: SET_USER_STATUS, status});
 export const deletePost = (postId: number): DeletePostActionType => ({type: DELETE_POST, postId}); // для теста tdd функционал не реализован в ui
 export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType => ({type: SAVE_PHOTO_SUCCESS, photos});
 
-export const getUserProfile = (userId: number) => {
-    return async (dispatch: any) => {
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>;
+
+export const getUserProfile = (userId: number): ThunkType => {
+    return async (dispatch) => {
         let data = await profileAPI.getProfile(userId);
         dispatch(setUserProfile(data));
     };
 }
-export const requestUserstatus = (userId: number) => {
-    return async (dispatch: any) => {
+export const requestUserStatus = (userId: number): ThunkType => {
+    return async (dispatch) => {
         let data = await profileAPI.getStatus(userId);
         dispatch(setUserStatus(data));
     };
 }
-export const updateUserStatus = (status: string) => {
-    return async (dispatch: any) => {
+export const updateUserStatus = (status: string): ThunkType => {
+    return async (dispatch) => {
         let data = await profileAPI.putStatus(status);
         if(data.resultCode == 0) {
             dispatch(setUserStatus(status));
         }
     };
 }
-export const savePhoto = (file: any) => {
-    return async (dispatch: any) => {
+export const savePhoto = (file: any): ThunkType => {
+    return async (dispatch) => {
         let data = await profileAPI.savePhoto(file);
         if(data.resultCode == 0) {
             dispatch(savePhotoSuccess(data.data.photos));
@@ -114,7 +121,7 @@ export const savePhoto = (file: any) => {
     };
 }
 export const saveProfile = (profile: ProfileType) => {
-    return async (dispatch: any, getState: any) => {
+    return async (dispatch: any, getState: any) => { // недотипизировано, тк ошибка по stopSubmit
         let userId = getState().auth.userId
         let data = await profileAPI.saveProfile(profile);
         if(data.resultCode == 0) {

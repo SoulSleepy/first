@@ -30,4 +30,5 @@ export type UserType = {
     name: string,
     status: string,
     photos: PhotosType
+    followed: boolean
 }

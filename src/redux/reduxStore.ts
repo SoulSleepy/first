@@ -9,7 +9,7 @@ import { reducer as formReducer } from 'redux-form';
 import appReducer from "./appReducer";
 
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
     profilePage: profileReducer,
     messengerPage: messengerReducer,
     sidebar: sidebarReducer,
@@ -19,8 +19,13 @@ let reducers = combineReducers({
     app: appReducer
 });
 
+type RootReducerType = typeof rootReducer;
+export type AppStateType = ReturnType<RootReducerType>;
+
+// @ts-ignore
 let composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // для redux devtools
-let store = legacy_createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware))); // для redux devtools
+
+let store = legacy_createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware))); // для redux devtools
 
 // let store = legacy_createStore(reducers, applyMiddleware(thunkMiddleware)); 
 
