@@ -17,25 +17,25 @@ function ProfileDataForm({profile, handleSubmit, error}) {
             </div>}
             <div className={styleForm.formField}>
                 <b>Full name:</b> <Field placeholder={'Full name'} name={'fullName'}
-                component={Element} elementType='input' validate={[required, maxLength30]}/>
+                component={Element} elementtype='input' validate={[required, maxLength30]}/>
             </div>
             <div className={styleForm.formField}>
                 <b>Looking for a job:</b> <Field name={'lookingForAJob'} type={'checkbox'}
-                component={Element} elementType='input'/>
+                component={Element} elementtype='input'/>
             </div>
             <div className={styleForm.formField}>
                 <b>My professional skills:</b> <Field placeholder={'My professional skills'}
-                name={'lookingForAJobDescription'} component={Element} elementType='textarea'/>
+                name={'lookingForAJobDescription'} component={Element} elementtype='textarea'/>
             </div>
             <div className={styleForm.formField}>
                 <b>About me:</b> <Field placeholder={'About me'}
-                name={'aboutMe'} component={Element} elementType='textarea'/>
+                name={'aboutMe'} component={Element} elementtype='textarea'/>
             </div>
             <div>
                 <b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
                     return <div key={key} className={style.contact}>
                         <b>{key}: <Field placeholder={key} name={'contacts.' + key}
-                        component={Element} elementType='input'/></b>
+                        component={Element} elementtype='input'/></b>
                     </div>
                 })}
             </div>

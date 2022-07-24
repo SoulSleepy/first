@@ -11,6 +11,7 @@
     "@types/node": "^18.0.3",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "@types/react-router-dom": "^5.3.3",
     "@types/redux-form": "^8.3.5",
     "axios": "^0.27.2",
     "classnames": "^2.3.1",

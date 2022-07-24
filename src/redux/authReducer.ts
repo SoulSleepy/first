@@ -71,7 +71,7 @@ export const getAuthUserData = (): ThunkType => {
         }
     };
 }
-export const login = (email: string, password: number, rememberMe: boolean, captcha: string): ThunkType => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkType => {
     return async (dispatch: any) => { //недотипизировано тк Ошибка stopsubmit как и в профайле
         let data = await authAPI.postAuthLogin(email, password, rememberMe, captcha);
         if (data.resultCode === ResultCodesEnum.Success) {

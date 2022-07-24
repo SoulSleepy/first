@@ -8,7 +8,7 @@ function AddMessageForm(props) {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component={Element} elementType='textarea' name='newMessageBody' placeholder='Enter your message'
+                <Field component={Element} elementtype='textarea' name='newMessageBody' placeholder='Enter your message'
                 validate={[required, maxLength100]} />
             </div>
             <div>
